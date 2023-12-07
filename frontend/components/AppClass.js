@@ -12,7 +12,7 @@ const initialState = {
   index: initialIndex,
   steps: initialSteps,
 }
-
+//installed dependancies 12-6
 export default class AppClass extends React.Component {
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
