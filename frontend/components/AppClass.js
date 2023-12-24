@@ -1,10 +1,23 @@
-import React from 'react'
+import React, {useState} from 'react'
+import axios from 'axios'
+import * as yup from 'yup'
+
+const formSchema = yup.object().shape({
+  formValue: yup
+    .string()
+    .email('Ouch: email must be a valid email')
+    .required('Ouch: email is required')
+    .notOneOf(['foo@bar.baz'], 'foo@bar.baz failure #71')
+})
+
 
 // Suggested initial states
 const initialMessage = ''
 const initialEmail = ''
 const initialSteps = 0
 const initialIndex = 4 // the index the "B" is at
+const initialX = 2 
+const initialY = 2
 
 const initialState = {
   message: initialMessage,
@@ -14,13 +27,37 @@ const initialState = {
 }
 //installed dependancies 12-6
 export default class AppClass extends React.Component {
+  constructor(){
+    super()
+    this.state= {
+      x: initialX,
+      y: initialY,
+      steps: initialSteps,
+      xy: initialIndex,
+      message: initialMessage,
+      formValues: ''
+    }
+  }
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
 
   getXY = () => {
+    return(`(${this.state.x},${this.state.y})`)
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
   }
+
+  reset = () => {
+      this.setState({
+        x: initialX,
+        y: initialY,
+        steps: initialSteps,
+        message: initialMessage, 
+        xy: initialIndex, 
+        formValues: ''
+      })
+  }
+
 
   getXYMessage = () => {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
@@ -28,11 +65,14 @@ export default class AppClass extends React.Component {
     // returns the fully constructed string.
   }
 
-  reset = () => {
-    // Use this helper to reset all states to their initial values.
-  }
-
   getNextIndex = (direction) => {
+    if(direction === 'left'){
+      if(this.state.x - 1 === 0){
+        return ({"x": this.state.x, "y": this.state.y})
+      }
+      return ({"x": this.state.x -1, "y": this.state.y, "xy": this.state.xy -1, "steps": this.state.steps + 1})
+    }
+    
     // This helper takes a direction ("left", "up", etc) and calculates what the next index
     // of the "B" would be. If the move is impossible because we are at the edge of the grid,
     // this helper should return the current index unchanged.
