@@ -78,7 +78,18 @@ export default class AppClass extends React.Component {
       }
       return ({"x": this.state.x + 1, "y": this.state.y, "xy": this.state.xy + 1, "steps": this.state.steps + 1})
     }
-    
+    if(direction === 'up'){
+      if(this.state.y - 1 === 0){
+        return({"x": this.state.x, "y": this.state.y})
+      }
+      return({'x': this.state.x, 'y': this.state.y - 1, 'xy': this.state.xy - 3, "steps": this.state.steps + 1})
+    }
+    if(direction === 'down'){
+      if(this.state.y + 1 === 4){
+        return({"x": this.state.x, "y": this.state.y})
+      }
+      return({'x': this.state.x, 'y': this.state.y + 1, 'xy': this.state.xy, "steps": this.state.steps + 1})
+    }
     // This helper takes a direction ("left", "up", etc) and calculates what the next index
     // of the "B" would be. If the move is impossible because we are at the edge of the grid,
     // this helper should return the current index unchanged.
