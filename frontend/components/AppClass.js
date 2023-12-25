@@ -58,13 +58,6 @@ export default class AppClass extends React.Component {
       })
   }
 
-
-  getXYMessage = () => {
-    // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
-    // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
-    // returns the fully constructed string.
-  }
-
   getNextIndex = (direction) => {
     if(direction === 'left'){
       if(this.state.x - 1 === 0){
@@ -96,15 +89,47 @@ export default class AppClass extends React.Component {
   }
 
   move = (evt) => {
+    let nextMove = this.getNextIndex(evt.target.id)
+      if(`(${nextMove.x}, ${nextMove.y})` === this.getXY()){
+        return this.setState({message: `You can't go ${evt.target.id}`})
+      }
+      this.setState({...this.state,
+      message: initialMessage,
+      x: nextMove.x,
+      y: nextMove.y,
+      steps: nextMove.steps,
+      xy: nextMove.xy})
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
   }
 
   onChange = (evt) => {
+    this.setState({formValues:evt.target.value})
     // You will need this to update the value of the input.
   }
 
+  validate= (name, value) => {
+    yup.reach(formSchema, name)
+      .validates(value)
+      .then(() => this.post())
+      .catch(err => this.setState({message:err.errors[0]}))
+  }
+
+  post = () => {
+    const toSend = {
+      "x": this.state.x,
+      "y": this.state.y,
+      "steps": this.state.steps,
+      "email": this.state.formValues
+    }
+    axios.post('http://localhost:9000/api/result', toSend)
+      .then(({data}) => this.setState({message: data.message}))
+      .finally(this.setState({formValues: ''}))
+  }
+
   onSubmit = (evt) => {
+    evt.preventDefault()
+    this.validate('formValue', this.state.formValues)
     // Use a POST request to send a payload to the server.
   }
 
