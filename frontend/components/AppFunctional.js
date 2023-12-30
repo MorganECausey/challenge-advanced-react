@@ -2,6 +2,13 @@ import React from 'react'
 import axios from 'axios'
 import * as yup from 'yup'
 
+const formSchema = yup.object().shape({
+  formValue: yup
+    .string(),
+    .email('Ouch: email must be a valid email')
+    .required('Ouch: email is required')
+    .notOneOf(['foo@bar.baz'], 'foo@bar.baz failure #71')
+})
 // Suggested initial states
 const initialMessage = ''
 const initialEmail = ''
