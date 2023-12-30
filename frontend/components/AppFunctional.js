@@ -4,7 +4,7 @@ import * as yup from 'yup'
 
 const formSchema = yup.object().shape({
   formValue: yup
-    .string(),
+    .string()
     .email('Ouch: email must be a valid email')
     .required('Ouch: email is required')
     .notOneOf(['foo@bar.baz'], 'foo@bar.baz failure #71')
@@ -14,10 +14,12 @@ const initialMessage = ''
 const initialEmail = ''
 const initialSteps = 0
 const initialIndex = 4 // the index the "B" is at
+const initialX = 2
+const initialY = 2
 
 export default function AppFunctional(props) {
   const [x, setX] = useState(initialX)
-  consy [y, setY] = useState(initialY)
+  const [y, setY] = useState(initialY)
   const [xy, setXY] = useState(initialIndex)
   const [moves, setMoves] = useState(0)
   const [messages, setMessages] = useState(initialMessage)
@@ -31,28 +33,70 @@ export default function AppFunctional(props) {
     // It's enough to know what index the "B" is at, to be able to calculate them.
   }
 
-  function getXYMessage() {
-    // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
-    // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
-    // returns the fully constructed string.
-  }
-
   function reset() {
-    // Use this helper to reset all states to their initial values.
+    setMoves(0)
+    setXY(initialIndex)
+    setX(initialX)
+    setY(initialY)
+    setMessages(initialMessage)
+    setFormValue('')
   }
 
   function getNextIndex(direction) {
     // This helper takes a direction ("left", "up", etc) and calculates what the next index
     // of the "B" would be. If the move is impossible because we are at the edge of the grid,
     // this helper should return the current index unchanged.
+    if(direction === 'left'){
+      if(x - 1 === 0){
+        setMessages("You can't go left")
+        return xy
+      }
+      setX(x-1)
+      setXY(xy-1)
+      setMoves(moves + 1)
+      setMessages(initialMessage)
+    }
+    if(direction === 'down'){
+      if(y + 1 === 4){
+        setMessages("You can't go down")
+        return xy
+      }
+      setY(y+1)
+      setXY(xy+3)
+      setMoves(moves + 1)
+      setMessages(initialMessage)
+    }
+    if(direction === 'right'){
+      if(x + 1 === 4){
+        setMessages("You can't go right")
+        return xy
+      }
+      setX(x+1)
+      setXY(xy + 1)
+      setMoves(moves + 1)
+      setMessages(initialMessage)
+    }
+    if(direction === 'up'){
+      if(y -1 === 0){
+      setMessages("You can't go up")
+      return xy
+      }
+      setY(y - 1)
+      setXY(xy - 3)
+      setMoves(moves + 1)
+      setMessages(initialMessage)
+    }
+
   }
 
   function move(evt) {
+    getNextIndex(evt)
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
   }
 
   function onChange(evt) {
+    setFormValue(evt.target.value)
     // You will need this to update the value of the input.
   }
 
