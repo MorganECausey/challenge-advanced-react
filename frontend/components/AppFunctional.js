@@ -102,6 +102,27 @@ export default function AppFunctional(props) {
 
   function onSubmit(evt) {
     // Use a POST request to send a payload to the server.
+    evt.preventDefault()
+    validate('formValue', formValue)
+  }
+
+  const validate = (name, value) => {
+    yup.reach(formSchema, name)
+      .validate(value)
+      .then(() => post())
+      .catch(err => setMessages(err.errors[0]))
+  }
+
+  function post(){
+    const toSend = {
+      "x": x,
+      "y": y,
+      "steps": moves, 
+      "email": formValue
+    }
+    axios.post('http://localhost:9000/api/result', toSend)
+      .then(({data}) => {setMessages(data.message)})
+      .finally(setFormValue(''))
   }
 
   return (
