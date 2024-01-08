@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import axios from 'axios'
 import * as yup from 'yup'
 
+//yup schema for form validation
 const formSchema = yup.object().shape({
   formValue: yup
     .string()
@@ -19,6 +20,7 @@ const initialIndex = 4 // the index the "B" is at
 const initialX = 2 
 const initialY = 2
 
+//define initial state of the component
 const initialState = {
   message: initialMessage,
   email: initialEmail,
@@ -26,6 +28,8 @@ const initialState = {
   steps: initialSteps,
 }
 //installed dependancies 12-6
+
+//class component definition
 export default class AppClass extends React.Component {
   constructor(){
     super()
@@ -41,12 +45,14 @@ export default class AppClass extends React.Component {
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
 
+  //helper to get current coordinates
   getXY = () => {
     return(`(${this.state.x},${this.state.y})`)
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
   }
 
+  //to reset the initial values
   reset = () => {
       this.setState({
         x: initialX,
@@ -58,6 +64,7 @@ export default class AppClass extends React.Component {
       })
   }
 
+  //helper funtion to get the next index based on the direction
   getNextIndex = (direction) => {
     if(direction === 'left'){
       if(this.state.x - 1 === 0){
@@ -88,6 +95,7 @@ export default class AppClass extends React.Component {
     // this helper should return the current index unchanged.
   }
 
+  //move the "B" in the grid, dependant on the button pressed
   move = (evt) => {
     let nextMove = this.getNextIndex(evt.target.id)
       if(`(${nextMove.x},${nextMove.y})` === this.getXY()){
@@ -103,11 +111,13 @@ export default class AppClass extends React.Component {
     // and change any states accordingly.
   }
 
+  //handle input change on the form
   onChange = (evt) => {
     this.setState({formValues: evt.target.value})
     // You will need this to update the value of the input.
   }
 
+  //validate form based on yup schema
   validate= (name, value) => {
     yup.reach(formSchema, name)
       .validates(value)
@@ -115,6 +125,7 @@ export default class AppClass extends React.Component {
       .catch(err => this.setState({message:err.errors[0]}))
   }
 
+  //send a post request with the current state to the server
   post = () => {
     const toSend = {
       "x": this.state.x,
@@ -127,12 +138,14 @@ export default class AppClass extends React.Component {
       .finally(this.setState({formValues: ''}))
   }
 
+  //handles form submission
   onSubmit = (evt) => {
     evt.preventDefault()
     this.validate('formValue', this.state.formValues)
     // Use a POST request to send a payload to the server.
   }
 
+  //renders the component
   render() {
     const { className } = this.props
     return (
