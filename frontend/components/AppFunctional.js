@@ -12,8 +12,6 @@ const formSchema = yup.object().shape({
 })
 // Suggested initial states
 const initialMessage = ''
-const initialEmail = ''
-const initialSteps = 0
 const initialIndex = 4 // the index the "B" is at
 const initialX = 2
 const initialY = 2
