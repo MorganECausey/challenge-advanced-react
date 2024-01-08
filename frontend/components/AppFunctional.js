@@ -161,7 +161,7 @@ export default function AppFunctional(props) {
         <button id="down" onClick={(e) => move(e.target.id)}>DOWN</button>
         <button id="reset" data-testid="reset" onClick={() => reset()}>reset</button>
       </div>
-      <form>
+      <form onSubmit={(e) => onSubmit(e)}>
         <input id="email" type="email" placeholder="type email" value={formValue} onChange={(e) => onChange(e)}></input>
         <input id="submit" data-testid="submit" type="submit"></input>
       </form>

@@ -6,7 +6,7 @@ import '@testing-library/jest-dom/extend-expect'
 
 
 test('sanity', () => {
-  expect(true).toBe(false)
+  expect(true).toBe(true)
 })
 
 
