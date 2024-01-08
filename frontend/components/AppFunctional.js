@@ -128,31 +128,31 @@ export default function AppFunctional(props) {
   return (
     <div id="wrapper" className={props.className}>
       <div className="info">
-        <h3 id="coordinates">Coordinates (2, 2)</h3>
-        <h3 id="steps">You moved 0 times</h3>
+        <h3 id="coordinates">{`Coordinates ${getXY()}`}</h3>
+        <h3 id="steps">{`You moved ${moves} ${moves === 1 ? 'time' : 'times'}`}</h3>
       </div>
       <div id="grid">
         {
           [0, 1, 2, 3, 4, 5, 6, 7, 8].map(idx => (
-            <div key={idx} className={`square${idx === 4 ? ' active' : ''}`}>
+            <div key={idx} className={`square${idx === xy ? ' active' : ''}`}>
               {idx === 4 ? 'B' : null}
             </div>
           ))
         }
       </div>
       <div className="info">
-        <h3 id="message"></h3>
+        <h3 id="message" data-testid='message'>{messages}</h3>
       </div>
       <div id="keypad">
-        <button id="left">LEFT</button>
-        <button id="up">UP</button>
-        <button id="right">RIGHT</button>
-        <button id="down">DOWN</button>
-        <button id="reset">reset</button>
+        <button id="left" onClick={(e) => move(e.target.id)}>LEFT</button>
+        <button id="up" data-testid="up" onClick= {(e) => move(e.target.id)}>UP</button>
+        <button id="right" onClick={(e) => move(e.target.id)}>RIGHT</button>
+        <button id="down" onClick={(e) => move(e.target.id)}>DOWN</button>
+        <button id="reset" data-testid="reset" onClick={() => reset()}>reset</button>
       </div>
       <form>
-        <input id="email" type="email" placeholder="type email"></input>
-        <input id="submit" type="submit"></input>
+        <input id="email" type="email" placeholder="type email" value={formValue} onChange={(e) => onChange(e)}></input>
+        <input id="submit" data-testid="submit" type="submit"></input>
       </form>
     </div>
   )

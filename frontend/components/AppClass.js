@@ -90,7 +90,7 @@ export default class AppClass extends React.Component {
 
   move = (evt) => {
     let nextMove = this.getNextIndex(evt.target.id)
-      if(`(${nextMove.x}, ${nextMove.y})` === this.getXY()){
+      if(`(${nextMove.x},${nextMove.y})` === this.getXY()){
         return this.setState({message: `You can't go ${evt.target.id}`})
       }
       this.setState({...this.state,
@@ -104,7 +104,7 @@ export default class AppClass extends React.Component {
   }
 
   onChange = (evt) => {
-    this.setState({formValues:evt.target.value})
+    this.setState({formValues: evt.target.value})
     // You will need this to update the value of the input.
   }
 
@@ -138,14 +138,14 @@ export default class AppClass extends React.Component {
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates (2, 2)</h3>
-          <h3 id="steps">You moved 0 times</h3>
+          <h3 id="coordinates">{`Coordinates ${this.getXY()}`}</h3>
+          <h3 id="steps">{`You moved ${this.state.steps} ${this.state.steps === 1 ? 'time' : 'times'}`}</h3>
         </div>
         <div id="grid">
           {
             [0, 1, 2, 3, 4, 5, 6, 7, 8].map(idx => (
-              <div key={idx} className={`square${idx === 4 ? ' active' : ''}`}>
-                {idx === 4 ? 'B' : null}
+              <div key={idx} className={`square${idx === this.state.xy ? ' active' : ''}`}>
+                {idx === this.state.xy ? 'B' : null}
               </div>
             ))
           }
@@ -154,14 +154,14 @@ export default class AppClass extends React.Component {
           <h3 id="message"></h3>
         </div>
         <div id="keypad">
-          <button id="left">LEFT</button>
-          <button id="up">UP</button>
-          <button id="right">RIGHT</button>
-          <button id="down">DOWN</button>
-          <button id="reset">reset</button>
+          <button id="left" onClick={(e) => this.move(e)}>LEFT</button>
+          <button id="up" onClick={(e) => this.move(e)}>UP</button>
+          <button id="right" onClick={(e) => this.move(e)}>RIGHT</button>
+          <button id="down" onClick={(e) => this.move(e)}>DOWN</button>
+          <button id="reset" onClick={(e) => this.reset(e)}>reset</button>
         </div>
-        <form>
-          <input id="email" type="email" placeholder="type email"></input>
+        <form onSubmit={(e) => this.onSubmit(e)}>
+          <input id="email" type="text" placeholder="type email" value={this.state.formValues} onChange={(e) => this.onChange(e)}></input>
           <input id="submit" type="submit"></input>
         </form>
       </div>
