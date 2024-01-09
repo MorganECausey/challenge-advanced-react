@@ -12,6 +12,8 @@ const formSchema = yup.object().shape({
 })
 // Suggested initial states
 const initialMessage = ''
+const initialEmail = ''
+const initialSteps = 0
 const initialIndex = 4 // the index the "B" is at
 const initialX = 2
 const initialY = 2
@@ -144,7 +146,7 @@ export default function AppFunctional(props) {
         {
           [0, 1, 2, 3, 4, 5, 6, 7, 8].map(idx => (
             <div key={idx} className={`square${idx === xy ? ' active' : ''}`}>
-              {idx === 4 ? 'B' : null}
+              {idx === xy ? 'B' : null}
             </div>
           ))
         }
