@@ -54,6 +54,7 @@ test('clicking reset resets the input box', () => {
   .toHaveValue('')
 })
 
+
 test('cannot go upwards past boundry', () => {
     render(<AppFunctional />)
 
