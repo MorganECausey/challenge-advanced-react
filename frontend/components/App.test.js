@@ -37,7 +37,6 @@ test('typing in input returns text entered', () => {
   fireEvent.change(inputBox, {target: {value: 'pizzatime'}})
   expect(inputBox)
   .toHaveValue('pizzatime')
- 
 
 })
 
@@ -48,6 +47,7 @@ test('clicking reset resets the input box', () => {
   const resetButton = screen.getByRole('reset')
 
   fireEvent.change(inputBox, {target: {value: 'pizzatime'}})
+  expect(inputBox)
   .toHaveValue('pizzatime')
   fireEvent.click(resetButton)
   expect(inputBox)
